@@ -444,7 +444,6 @@ public class EM_StatusManager
 			quality = 2F;
 		}
                     float baseTemp = (float) 0.0;
-                    if (Loader.isModLoaded("RPCore")) {
                         ForgeDimension d = RPCore.getDimensionRegistry().getForDimensionId(entityLiving.worldObj.provider.dimensionId);
                         if (d != null) {
                             Position pos = new Position(d.getIdentifier(), entityLiving.posX, entityLiving.posY, entityLiving.posZ);
@@ -453,7 +452,6 @@ public class EM_StatusManager
                                 CoreAPI.sendConsoleEntry("Base temperature at " + pos.toString() + " is : " + baseTemp, ConsoleMessageType.FINE);
                             }
                         }
-                    }
 
                     
 		float bTemp = ((surBiomeTemps / biomeTempChecks)) + (float) baseTemp;

@@ -29,6 +29,10 @@ import enviromine.trackers.properties.BlockProperties;
 import enviromine.trackers.properties.DimensionProperties;
 import enviromine.trackers.properties.StabilityType;
 import enviromine.utils.EnviroUtils;
+import rpcore.RPCore;
+import rpcore.constants.CelestialClass;
+import rpcore.constants.Position;
+import rpcore.module.dimension.ForgeDimension;
 
 public class EM_PhysManager
 {
@@ -60,6 +64,14 @@ public class EM_PhysManager
 		
 		DimensionProperties dProps = EM_Settings.dimensionProperties.get(world.provider.dimensionId);
 		
+                ForgeDimension d = RPCore.getDimensionRegistry().getForDimensionId(world.provider.dimensionId);
+                if (d != null) {
+                    Position pos = new Position(d.getIdentifier(), x, y, z);
+                    if (pos != null) {
+                        if (pos.isInHyperSpace() || pos.isInSpace()) return;
+                    }
+                }
+                
 		if(dProps != null && !dProps.physics)
 		{
 			return;
