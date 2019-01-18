@@ -746,15 +746,6 @@ public class EM_StatusManager
 				if(ArmorProperties.base.hasProperty(helmet))
 				{
 					ArmorProperties props = ArmorProperties.base.getProperty(helmet);
-                                        
-                                        if (bTemp > 25.0) {
-                                            float adjustmentNeeded = (float) (bTemp - 25.0);
-                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
-                                        } 
-                                        if (bTemp < 25.0) {
-                                            float adjustmentNeeded = (float) (25.0 - bTemp);
-                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
-                                        } 
                                                 
 					if(isDay)
 					{
@@ -788,7 +779,17 @@ public class EM_StatusManager
 					{
 						sBoost = props.sanity;
 					}
+                                        
+                                        if (bTemp > 25.0) {
+                                            float adjustmentNeeded = (float) (bTemp - 25.0);
+                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
+                                        } 
+                                        if (bTemp < 25.0) {
+                                            float adjustmentNeeded = (float) (25.0 - bTemp);
+                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
+                                        } 
 				}
+
 			}
 			if(plate != null)
 			{
@@ -811,14 +812,6 @@ public class EM_StatusManager
 				if(ArmorProperties.base.hasProperty(plate))
 				{
 					ArmorProperties props = ArmorProperties.base.getProperty(plate);
-                                        if (bTemp > 25.0) {
-                                            float adjustmentNeeded = (float) (bTemp - 25.0);
-                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
-                                        } 
-                                        if (bTemp < 25.0) {
-                                            float adjustmentNeeded = (float) (25.0 - bTemp);
-                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
-                                        } 
                                                 
 					if(isDay)
 					{
@@ -849,6 +842,15 @@ public class EM_StatusManager
 					{
 						sBoost = props.sanity;
 					}
+
+                                        if (bTemp > 25.0) {
+                                            float adjustmentNeeded = (float) (bTemp - 25.0);
+                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
+                                        } 
+                                        if (bTemp < 25.0) {
+                                            float adjustmentNeeded = (float) (25.0 - bTemp);
+                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
+                                        } 
 				}
 			}
 			if(legs != null)
@@ -872,14 +874,6 @@ public class EM_StatusManager
 				if(ArmorProperties.base.hasProperty(legs))
 				{
 					ArmorProperties props = ArmorProperties.base.getProperty(legs);
-                                        if (bTemp > 25.0) {
-                                            float adjustmentNeeded = (float) (bTemp - 25.0);
-                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
-                                        } 
-                                        if (bTemp < 25.0) {
-                                            float adjustmentNeeded = (float) (25.0 - bTemp);
-                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
-                                        } 
                                                 
 					if(isDay)
 					{
@@ -910,6 +904,15 @@ public class EM_StatusManager
 					{
 						sBoost = props.sanity;
 					}
+
+                                        if (bTemp > 25.0) {
+                                            float adjustmentNeeded = (float) (bTemp - 25.0);
+                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
+                                        } 
+                                        if (bTemp < 25.0) {
+                                            float adjustmentNeeded = (float) (25.0 - bTemp);
+                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
+                                        } 
 				}
 			}
 			if(boots != null)
@@ -933,14 +936,6 @@ public class EM_StatusManager
 				if(ArmorProperties.base.hasProperty(boots))
 				{
 					ArmorProperties props = ArmorProperties.base.getProperty(boots);
-                                        if (bTemp > 25.0) {
-                                            float adjustmentNeeded = (float) (bTemp - 25.0);
-                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
-                                        } 
-                                        if (bTemp < 25.0) {
-                                            float adjustmentNeeded = (float) (25.0 - bTemp);
-                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
-                                        } 
                                                 
 					if(isDay)
 					{
@@ -971,6 +966,15 @@ public class EM_StatusManager
 					{
 						sBoost = props.sanity;
 					}
+
+                                        if (bTemp > 25.0) {
+                                            float adjustmentNeeded = (float) (bTemp - 25.0);
+                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
+                                        } 
+                                        if (bTemp < 25.0) {
+                                            float adjustmentNeeded = (float) (25.0 - bTemp);
+                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
+                                        } 
 				}
 			}
 			
