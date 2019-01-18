@@ -34,6 +34,8 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 	public float shadeMult;
 	public float sunMult;
 	public float sanity;
+        public float maxTemperatureDecrease;
+        public float maxTemperatureIncrease;
 	public float air;
 	public boolean allowCamelPack;
 	public String loadedFrom;
@@ -53,7 +55,7 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 		}
 	}
 	
-	public ArmorProperties(Item item, String name, float nightTemp, float shadeTemp, float sunTemp, float nightMult, float shadeMult, float sunMult, float sanity, float air, boolean allowCamelPack, String filename)
+	public ArmorProperties(Item item, String name, float nightTemp, float shadeTemp, float sunTemp, float nightMult, float shadeMult, float sunMult, float sanity, float air, boolean allowCamelPack, float maxTemperatureIncrease, float maxTemperatureDecrease, String filename)
 	{
 		this.item = item;
 		this.name = name;
@@ -66,6 +68,8 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 		this.sanity = sanity;
 		this.air = air;
 		this.allowCamelPack = allowCamelPack;
+                this.maxTemperatureIncrease = maxTemperatureIncrease;
+                this.maxTemperatureDecrease = maxTemperatureDecrease;
 		this.loadedFrom = filename;
 	}
 
@@ -102,6 +106,8 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 		tags.setFloat("shadeMult", shadeMult);
 		tags.setFloat("sunMult", sunMult);
 		tags.setFloat("sanity", sanity);
+                tags.setFloat("maxTemperatureIncrease", this.maxTemperatureIncrease);
+                tags.setFloat("maxTemperatureDecrease", this.maxTemperatureDecrease);
 		tags.setFloat("air", air);
 		tags.setBoolean("allowCamelPack", allowCamelPack);
 		return tags;
@@ -121,6 +127,8 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 		this.sanity = tags.getFloat("sanity");
 		this.air = tags.getFloat("air");
 		this.allowCamelPack = tags.getBoolean("allowCamelPack");
+                this.maxTemperatureDecrease = tags.getFloat("maxTemperatureDecrease");
+                this.maxTemperatureIncrease = tags.getFloat("maxTemperatureIncrease");
 	}
 
 	@Override
@@ -156,8 +164,11 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 		{
 			allowCamelPack = config.get(category, APName[9], true).getBoolean(true);
 		}
+                float maxDecrease = (float)config.get(category, APName[10], 0.00).getDouble(10.0);
+                float maxIncrease = (float)config.get(category, APName[11], 0.00).getDouble(10.0);
+                
 		
-		ArmorProperties entry = new ArmorProperties((Item)item, name, nightTemp, shadeTemp, sunTemp, nightMult, shadeMult, sunMult, sanity, air, allowCamelPack, filename);
+		ArmorProperties entry = new ArmorProperties((Item)item, name, nightTemp, shadeTemp, sunTemp, nightMult, shadeMult, sunMult, sanity, air, allowCamelPack,maxIncrease,maxDecrease, filename);
 
 		// If item already exist and current file hasn't completely been loaded do this
 		if(EM_Settings.armorProperties.containsKey(name) && !EM_ConfigHandler.loadedConfigs.contains(filename)) EnviroMine.logger.log(Level.ERROR, "CONFIG DUPLICATE: Armor - "+ name.toUpperCase() +" was already added from "+ EM_Settings.armorProperties.get(name).loadedFrom.toUpperCase() +" and will be overriden by "+ filename.toUpperCase());
@@ -177,8 +188,17 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 		config.get(category, APName[6], sunMult).getDouble(sunMult);
 		config.get(category, APName[7], sanity).getDouble(sanity);
 		config.get(category, APName[8], air).getDouble(air);
+                config.get(category, APName[10], maxTemperatureDecrease).getDouble(maxTemperatureDecrease);
+                config.get(category, APName[11], maxTemperatureIncrease).getDouble(maxTemperatureIncrease);
 	}
 	
+        public void drainItemForTemperature(float maxSafe, float current, ItemStack item) {
+            int damagePerTick = 1;
+            if (maxSafe < current) damagePerTick *= Math.pow((current/maxSafe), 1.05); // Example If maxSafe is 100C and currentTemp is 1000C multiply by 10 to the power of 1.05.
+            int currentDamage = item.getItemDamage();
+            item.setItemDamage(currentDamage += damagePerTick);            
+        }
+        
 	@Override
 	public void GenDefaults()
 	{
@@ -346,6 +366,8 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 		config.get(catName, APName[6], 1.0D).getDouble(1.0D);
 		config.get(catName, APName[7], 0.0D).getDouble(0.0D);
 		config.get(catName, APName[8], 0.0D).getDouble(0.0D);
+		config.get(catName, APName[10], 5.0D).getDouble(0.0D);
+		config.get(catName, APName[11], 5.0D).getDouble(0.0D);
 		
 		if(armor.armorType == 1)
 		{
@@ -366,7 +388,7 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 	
 	static
 	{
-		APName = new String[10];
+		APName = new String[12];
 		APName[0] = "01.ID";
 		APName[1] = "02.Temp Add - Night";
 		APName[2] = "03.Temp Add - Shade";
@@ -377,5 +399,8 @@ public class ArmorProperties implements SerialisableProperty, PropertyBase
 		APName[7] = "08.Sanity";
 		APName[8] = "09.Air";
 		APName[9] = "10.Allow Camel Pack";
+                APName[10] = "11.Maximum Temperature Decrease";
+                APName[11] = "12.Maximum Temperature Increase";
+                
 	}
 }
