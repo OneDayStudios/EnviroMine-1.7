@@ -48,8 +48,14 @@ import com.google.common.base.Stopwatch;
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraftforge.common.EnumPlantType;
-
+import cpw.mods.fml.common.Loader;
 import org.apache.logging.log4j.Level;
+import rpcore.RPCore;
+import rpcore.api.CoreAPI;
+import rpcore.api.UniverseAPI;
+import rpcore.constants.ConsoleMessageType;
+import rpcore.constants.Position;
+import rpcore.module.dimension.ForgeDimension;
 
 public class EM_StatusManager
 {
@@ -206,8 +212,7 @@ public class EM_StatusManager
 			dimensionProp = DimensionProperties.base.getProperty(entityLiving.worldObj.provider.dimensionId);
 		}
 		
-		
-		float surBiomeTemps = 0;
+		float surBiomeTemps = (float) 0.0; // Base Temp?
 		int biomeTempChecks = 0;
 		
 		boolean isDay = entityLiving.worldObj.isDaytime();
@@ -268,11 +273,13 @@ public class EM_StatusManager
 							if(biomeOverride != null && biomeOverride.biomeOveride)
 							{
 								surBiomeTemps += biomeOverride.ambientTemp;
+                                                                System.out.println("Adding biomeOverride: " + biomeOverride.ambientTemp + " for biome: " + checkBiome.biomeName);
 							}
 							else
 							{
 								//surBiomeTemps += EnviroUtils.getBiomeTemp(checkBiome);
 								surBiomeTemps += EnviroUtils.getBiomeTemp((i + x),(j + y), (k + z), checkBiome);
+                                                                System.out.println("Getting biome temp: " + EnviroUtils.getBiomeTemp((i + x),(j + y), (k + z), checkBiome) + " for : " + checkBiome.biomeName);
 							}
 							
 							biomeTempChecks += 1;
@@ -436,9 +443,20 @@ public class EM_StatusManager
 		{
 			quality = 2F;
 		}
-		
+                    float baseTemp = (float) 0.0;
+                    if (Loader.isModLoaded("RPCore")) {
+                        ForgeDimension d = RPCore.getDimensionRegistry().getForDimensionId(entityLiving.worldObj.provider.dimensionId);
+                        if (d != null) {
+                            Position pos = new Position(d.getIdentifier(), entityLiving.posX, entityLiving.posY, entityLiving.posZ);
+                            if (pos != null) {
+                                baseTemp = UniverseAPI.getBaseTempAtLocation(pos);
+                                CoreAPI.sendConsoleEntry("Base temperature at " + pos.toString() + " is : " + baseTemp, ConsoleMessageType.FINE);
+                            }
+                        }
+                    }
 
-		float bTemp = (surBiomeTemps / biomeTempChecks);
+                    
+		float bTemp = ((surBiomeTemps / biomeTempChecks)) + (float) baseTemp;
 		float highTemp = -30F; // Max temp at high altitude
 		float lowTemp = 30F; // Min temp at low altitude (Geothermal Heating)
 		
@@ -1048,6 +1066,7 @@ public class EM_StatusManager
 		if(dimensionProp != null && dimensionProp.override)
 		{   
 			quality = quality * (float) dimensionProp.airMulti + dimensionProp.airRate;
+                        System.out.println("QualityOLD: " + quality + ", multi:" + dimensionProp.airMulti + "," + dimensionProp.airRate);
 			riseSpeed = riseSpeed * (float) dimensionProp.tempMulti + dimensionProp.tempRate;
 			dropSpeed = dropSpeed * (float) dimensionProp.tempMulti + dimensionProp.tempRate;
 			sanityRate = sanityRate * (float) dimensionProp.sanityMulti + dimensionProp.sanityRate;
