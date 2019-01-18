@@ -273,13 +273,11 @@ public class EM_StatusManager
 							if(biomeOverride != null && biomeOverride.biomeOveride)
 							{
 								surBiomeTemps += biomeOverride.ambientTemp;
-                                                                System.out.println("Adding biomeOverride: " + biomeOverride.ambientTemp + " for biome: " + checkBiome.biomeName);
 							}
 							else
 							{
 								//surBiomeTemps += EnviroUtils.getBiomeTemp(checkBiome);
 								surBiomeTemps += EnviroUtils.getBiomeTemp((i + x),(j + y), (k + z), checkBiome);
-                                                                System.out.println("Getting biome temp: " + EnviroUtils.getBiomeTemp((i + x),(j + y), (k + z), checkBiome) + " for : " + checkBiome.biomeName);
 							}
 							
 							biomeTempChecks += 1;
@@ -449,7 +447,6 @@ public class EM_StatusManager
                             Position pos = new Position(d.getIdentifier(), entityLiving.posX, entityLiving.posY, entityLiving.posZ);
                             if (pos != null) {
                                 baseTemp = UniverseAPI.getBaseTempAtLocation(pos);
-                                CoreAPI.sendConsoleEntry("Base temperature at " + pos.toString() + " is : " + baseTemp, ConsoleMessageType.FINE);
                             }
                         }
 
