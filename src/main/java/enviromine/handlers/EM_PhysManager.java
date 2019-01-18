@@ -109,12 +109,22 @@ public class EM_PhysManager
 		}
 		
 		DimensionProperties dProps = EM_Settings.dimensionProperties.get(world.provider.dimensionId);
-		
+                ForgeDimension d = RPCore.getDimensionRegistry().getForDimensionId(world.provider.dimensionId);
+                if (d != null) {
+                    Position pos = new Position(d.getIdentifier(), x, y, z);
+                    if (pos != null) {
+                        if (pos.isInHyperSpace() || pos.isInSpace()) return;
+                        if (WarpDrive.starMap.isBlockPartOfActiveWarpCore(world,x,y,z)) {
+                            CoreAPI.sendConsoleEntry("Block is part of warp core at: " + x +"," + y  +"," + z + " and is being disregarded for physics processing.", ConsoleMessageType.FINE);
+                            return;
+                        }
+                    }
+                }
 		if(dProps != null && !dProps.physics)
 		{
 			return;
 		}
-		
+                
 		if(world.isAirBlock(x, y, z))
 		{
 			return;
@@ -214,7 +224,17 @@ public class EM_PhysManager
 		}
 		
 		DimensionProperties dProps = EM_Settings.dimensionProperties.get(world.provider.dimensionId);
-		
+                ForgeDimension d = RPCore.getDimensionRegistry().getForDimensionId(world.provider.dimensionId);
+                if (d != null) {
+                    Position pos = new Position(d.getIdentifier(), x, y, z);
+                    if (pos != null) {
+                        if (pos.isInHyperSpace() || pos.isInSpace()) return;
+                        if (WarpDrive.starMap.isBlockPartOfActiveWarpCore(world,x,y,z)) {
+                            CoreAPI.sendConsoleEntry("Block is part of warp core at: " + x +"," + y  +"," + z + " and is being disregarded for physics processing.", ConsoleMessageType.FINE);
+                            return;
+                        }
+                    }
+                }
 		if(dProps != null && !dProps.physics)
 		{
 			return;
