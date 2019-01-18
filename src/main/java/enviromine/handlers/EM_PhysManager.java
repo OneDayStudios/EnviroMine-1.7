@@ -21,6 +21,7 @@ import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import org.apache.logging.log4j.Level;
 import com.google.common.base.Stopwatch;
+import cr0s.warpdrive.WarpDrive;
 import enviromine.EntityPhysicsBlock;
 import enviromine.client.gui.hud.items.Debug_Info;
 import enviromine.core.EM_Settings;
@@ -30,7 +31,9 @@ import enviromine.trackers.properties.DimensionProperties;
 import enviromine.trackers.properties.StabilityType;
 import enviromine.utils.EnviroUtils;
 import rpcore.RPCore;
+import rpcore.api.CoreAPI;
 import rpcore.constants.CelestialClass;
+import rpcore.constants.ConsoleMessageType;
 import rpcore.constants.Position;
 import rpcore.module.dimension.ForgeDimension;
 
@@ -69,6 +72,10 @@ public class EM_PhysManager
                     Position pos = new Position(d.getIdentifier(), x, y, z);
                     if (pos != null) {
                         if (pos.isInHyperSpace() || pos.isInSpace()) return;
+                        if (WarpDrive.starMap.isBlockPartOfActiveWarpCore(world,x,y,z)) {
+                            CoreAPI.sendConsoleEntry("Block is part of warp core at: " + x +"," + y  +"," + z + " and is being disregarded for physics processing.", ConsoleMessageType.FINE);
+                            return;
+                        }
                     }
                 }
                 
