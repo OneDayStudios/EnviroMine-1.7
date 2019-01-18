@@ -49,6 +49,7 @@ import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraftforge.common.EnumPlantType;
 import cpw.mods.fml.common.Loader;
+import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 import rpcore.RPCore;
 import rpcore.api.CoreAPI;
@@ -717,8 +718,10 @@ public class EM_StatusManager
 			
 			float tempMultTotal = 0F;
 			float addTemp = 0F;
+                        float maxDecreaseTemp = (float) 0.0;
+                        float maxIncreaseTemp = (float) 0.0;
                         
-			
+                        
 			if(helmet != null)
 			{
 				NBTTagList enchTags = helmet.getEnchantmentTagList();
@@ -743,7 +746,10 @@ public class EM_StatusManager
 				if(ArmorProperties.base.hasProperty(helmet))
 				{
 					ArmorProperties props = ArmorProperties.base.getProperty(helmet);
-                                                
+                                        
+                                        maxIncreaseTemp += props.maxTemperatureIncrease;
+                                        maxDecreaseTemp += props.maxTemperatureDecrease;
+                                        
 					if(isDay)
 					{
 						if(entityLiving.worldObj.canBlockSeeTheSky(i, j, k) && bTemp > 0F)
@@ -776,15 +782,6 @@ public class EM_StatusManager
 					{
 						sBoost = props.sanity;
 					}
-                                        
-                                        if (bTemp > 25.0) {
-                                            float adjustmentNeeded = (float) (bTemp - 25.0);
-                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
-                                        } 
-                                        if (bTemp < 25.0) {
-                                            float adjustmentNeeded = (float) (25.0 - bTemp);
-                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
-                                        } 
 				}
 
 			}
@@ -809,7 +806,8 @@ public class EM_StatusManager
 				if(ArmorProperties.base.hasProperty(plate))
 				{
 					ArmorProperties props = ArmorProperties.base.getProperty(plate);
-                                                
+                                        maxIncreaseTemp += props.maxTemperatureIncrease;
+                                        maxDecreaseTemp += props.maxTemperatureDecrease;
 					if(isDay)
 					{
 						if(entityLiving.worldObj.canBlockSeeTheSky(i, j, k) && bTemp > 0F)
@@ -839,15 +837,6 @@ public class EM_StatusManager
 					{
 						sBoost = props.sanity;
 					}
-
-                                        if (bTemp > 25.0) {
-                                            float adjustmentNeeded = (float) (bTemp - 25.0);
-                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
-                                        } 
-                                        if (bTemp < 25.0) {
-                                            float adjustmentNeeded = (float) (25.0 - bTemp);
-                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
-                                        } 
 				}
 			}
 			if(legs != null)
@@ -871,7 +860,8 @@ public class EM_StatusManager
 				if(ArmorProperties.base.hasProperty(legs))
 				{
 					ArmorProperties props = ArmorProperties.base.getProperty(legs);
-                                                
+                                        maxIncreaseTemp += props.maxTemperatureIncrease;
+                                        maxDecreaseTemp += props.maxTemperatureDecrease;
 					if(isDay)
 					{
 						if(entityLiving.worldObj.canBlockSeeTheSky(i, j, k) && bTemp > 0F)
@@ -901,15 +891,6 @@ public class EM_StatusManager
 					{
 						sBoost = props.sanity;
 					}
-
-                                        if (bTemp > 25.0) {
-                                            float adjustmentNeeded = (float) (bTemp - 25.0);
-                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
-                                        } 
-                                        if (bTemp < 25.0) {
-                                            float adjustmentNeeded = (float) (25.0 - bTemp);
-                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
-                                        } 
 				}
 			}
 			if(boots != null)
@@ -933,7 +914,8 @@ public class EM_StatusManager
 				if(ArmorProperties.base.hasProperty(boots))
 				{
 					ArmorProperties props = ArmorProperties.base.getProperty(boots);
-                                                
+                                        maxIncreaseTemp += props.maxTemperatureIncrease;
+                                        maxDecreaseTemp += props.maxTemperatureDecrease;
 					if(isDay)
 					{
 						if(entityLiving.worldObj.canBlockSeeTheSky(i, j, k) && bTemp > 0F)
@@ -963,20 +945,24 @@ public class EM_StatusManager
 					{
 						sBoost = props.sanity;
 					}
-
-                                        if (bTemp > 25.0) {
-                                            float adjustmentNeeded = (float) (bTemp - 25.0);
-                                            addTemp -= Math.min(adjustmentNeeded, props.maxTemperatureDecrease);
-                                        } 
-                                        if (bTemp < 25.0) {
-                                            float adjustmentNeeded = (float) (25.0 - bTemp);
-                                            addTemp += Math.min(adjustmentNeeded, props.maxTemperatureIncrease);
-                                        } 
 				}
-			}
-			
+			}       
 			bTemp *= (1F + tempMultTotal);
 			bTemp += addTemp;
+                        if (bTemp > 25.0) {
+                            if (maxDecreaseTemp != 0.0) {
+                                float difference = (float) (bTemp - 25.0);
+                                float adjustment = Math.min(difference, maxDecreaseTemp);
+                                bTemp -= adjustment;
+                            }
+                        }
+                        if (bTemp < 25.0) {
+                            if (maxIncreaseTemp != 0.0) {
+                                float difference = (float) (25.0 - bTemp);
+                                float adjustment = Math.min(difference, maxDecreaseTemp);
+                                bTemp += adjustment;
+                            }
+                        }
 			fireProt = 1F - fireProt/18F;
 		}
 		
@@ -1099,7 +1085,6 @@ public class EM_StatusManager
 		if(dimensionProp != null && dimensionProp.override)
 		{   
 			quality = quality * (float) dimensionProp.airMulti + dimensionProp.airRate;
-                        System.out.println("QualityOLD: " + quality + ", multi:" + dimensionProp.airMulti + "," + dimensionProp.airRate);
 			riseSpeed = riseSpeed * (float) dimensionProp.tempMulti + dimensionProp.tempRate;
 			dropSpeed = dropSpeed * (float) dimensionProp.tempMulti + dimensionProp.tempRate;
 			sanityRate = sanityRate * (float) dimensionProp.sanityMulti + dimensionProp.sanityRate;
