@@ -305,7 +305,9 @@ public class EM_StatusManager
                                                     double maxCooled = blockProps.radiateMaxCooling;
                                                     double maxHeated = blockProps.radiateMaxHeating;
                                                     maxDecreaseTemp += maxCooled;
-                                                    maxIncreaseTemp += maxHeated;                                                    
+                                                    maxIncreaseTemp += maxHeated;        
+                                                } else {
+                                                    if (distance >= 10.0) continue;
                                                 }
 						if(blockProps.air > 0F)
 						{
