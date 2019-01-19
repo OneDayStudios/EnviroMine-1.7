@@ -207,8 +207,8 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 		boolean slides = config.get(category, BPName[10], false).getBoolean(false);
 		boolean wetSlides = config.get(category, BPName[11], false).getBoolean(false);
                 float radiateRange = (float)config.get(category, BPName[12], 0.0).getDouble(0.0);
-		float radiateMaxHeat = (float)config.get(category, BPName[13], 0.0).getDouble(0.0);
-		float radiateMaxCool = (float)config.get(category, BPName[14], 0.0).getDouble(0.0);
+		float radiateMaxCool = (float)config.get(category, BPName[13], 0.0).getDouble(0.0);
+		float radiateMaxHeat = (float)config.get(category, BPName[14], 0.0).getDouble(0.0);
 		String filename = config.getConfigFile().getName();
 		
 		// 	Get Stability Options

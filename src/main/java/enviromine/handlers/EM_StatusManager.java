@@ -1086,7 +1086,7 @@ public class EM_StatusManager
                 if (tempFin < 25.0) {
                     if (maxIncreaseTemp != 0.0) {
                         float difference = (float) (25.0 - tempFin);
-                        float adjustment = Math.min(difference, maxDecreaseTemp);
+                        float adjustment = Math.min(difference, maxIncreaseTemp);
                         tempFin += adjustment;
                     }
                 }
