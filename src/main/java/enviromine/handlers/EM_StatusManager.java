@@ -175,7 +175,9 @@ public class EM_StatusManager
 		
 		float dropSpeed = 0.001F;
 		float riseSpeed = 0.001F;
-		
+
+                float maxDecreaseTemp = (float) 0.0;
+                float maxIncreaseTemp = (float) 0.0;
 		float temp = -999F;
 		float cooling = 0;
 		float dehydrateBonus = 0.0F;
@@ -305,7 +307,6 @@ public class EM_StatusManager
 					if(BlockProperties.base.hasProperty(block, meta))
 					{
 						BlockProperties blockProps = BlockProperties.base.getProperty(block, meta);
-						
 						if(blockProps.air > 0F)
 						{
 							leaves += (blockProps.air/0.1F);
@@ -516,7 +517,7 @@ public class EM_StatusManager
 			bTemp -= (1F-dayPercent) * 10F;
 			
 			if(biome.rainfall <= 0F)
-			{
+			{ 
 				bTemp -= (1F-dayPercent) * 30F;
 			}
 		}
@@ -718,8 +719,6 @@ public class EM_StatusManager
 			
 			float tempMultTotal = 0F;
 			float addTemp = 0F;
-                        float maxDecreaseTemp = (float) 0.0;
-                        float maxIncreaseTemp = (float) 0.0;
                         
                         
 			if(helmet != null)
@@ -949,20 +948,6 @@ public class EM_StatusManager
 			}       
 			bTemp *= (1F + tempMultTotal);
 			bTemp += addTemp;
-                        if (bTemp > 25.0) {
-                            if (maxDecreaseTemp != 0.0) {
-                                float difference = (float) (bTemp - 25.0);
-                                float adjustment = Math.min(difference, maxDecreaseTemp);
-                                bTemp -= adjustment;
-                            }
-                        }
-                        if (bTemp < 25.0) {
-                            if (maxIncreaseTemp != 0.0) {
-                                float difference = (float) (25.0 - bTemp);
-                                float adjustment = Math.min(difference, maxDecreaseTemp);
-                                bTemp += adjustment;
-                            }
-                        }
 			fireProt = 1F - fireProt/18F;
 		}
 		
@@ -1091,6 +1076,20 @@ public class EM_StatusManager
 			dehydrateBonus = dehydrateBonus * (float) dimensionProp.hydrationMulti + dimensionProp.hydrationRate;
 		}
 
+                if (tempFin > 25.0) {
+                    if (maxDecreaseTemp != 0.0) {
+                        float difference = (float) (tempFin - 25.0);
+                        float adjustment = Math.min(difference, maxDecreaseTemp);
+                        tempFin -= adjustment;
+                    }
+                }
+                if (tempFin < 25.0) {
+                    if (maxIncreaseTemp != 0.0) {
+                        float difference = (float) (25.0 - tempFin);
+                        float adjustment = Math.min(difference, maxDecreaseTemp);
+                        tempFin += adjustment;
+                    }
+                }
 		
 		data[0] = quality * (float)EM_Settings.airMult;
 		data[1] = entityLiving.isPotionActive(Potion.fireResistance) && tempFin > 37F? 37F : (tempFin > 37F? 37F + ((tempFin-37F) * fireProt): tempFin);
