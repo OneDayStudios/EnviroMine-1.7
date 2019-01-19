@@ -15,11 +15,8 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -46,15 +43,10 @@ import java.util.List;
 import com.google.common.base.Stopwatch;
 
 import cpw.mods.fml.common.network.NetworkRegistry.TargetPoint;
-import cpw.mods.fml.common.registry.EntityRegistry;
 import net.minecraftforge.common.EnumPlantType;
-import cpw.mods.fml.common.Loader;
-import java.util.ArrayList;
 import org.apache.logging.log4j.Level;
 import rpcore.RPCore;
-import rpcore.api.CoreAPI;
 import rpcore.api.UniverseAPI;
-import rpcore.constants.ConsoleMessageType;
 import rpcore.constants.Position;
 import rpcore.module.dimension.ForgeDimension;
 
@@ -307,6 +299,14 @@ public class EM_StatusManager
 					if(BlockProperties.base.hasProperty(block, meta))
 					{
 						BlockProperties blockProps = BlockProperties.base.getProperty(block, meta);
+                                                double distance = Math.sqrt((Math.pow((x),2) + Math.pow(y,2) + Math.pow(z,2)));
+                                                if (blockProps.radiateRange > 0.0 && blockProps.radiateRange >= distance) {
+                                                    //double percent = distance / blockProps.radiateRange;
+                                                    double maxCooled = blockProps.radiateMaxCooling;
+                                                    double maxHeated = blockProps.radiateMaxHeating;
+                                                    maxDecreaseTemp += maxCooled;
+                                                    maxIncreaseTemp += maxHeated;                                                    
+                                                }
 						if(blockProps.air > 0F)
 						{
 							leaves += (blockProps.air/0.1F);

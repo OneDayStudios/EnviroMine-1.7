@@ -52,7 +52,10 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 	public boolean slides;
 	public boolean canHang;
 	public boolean wetSlide;
-	
+	public float radiateMaxHeating = (float) 0.0;
+	public float radiateMaxCooling = (float) 0.0;
+	public float radiateRange = (float) 0.0;
+
 	public String loadedFrom;
 	
 	public BlockProperties(NBTTagCompound tags)
@@ -70,7 +73,7 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 		}
 	}
 	
-	public BlockProperties(String name, int meta, boolean hasPhys, int minFall, int maxFall, int supportDist, String dropName, int dropMeta, int dropNum, boolean enableTemp, float temp, float air, float sanity, boolean holdOther, boolean slides, boolean canHang, boolean wetSlide, String stability, String fileName)
+	public BlockProperties(String name, int meta, boolean hasPhys, int minFall, int maxFall, int supportDist, String dropName, int dropMeta, int dropNum, boolean enableTemp, float temp, float air, float sanity, boolean holdOther, boolean slides, boolean canHang, boolean wetSlide, String stability, float maxRange, float maxCooling, float maxHeating, String fileName)
 	{
 		this.name = name;
 		this.meta = meta;
@@ -90,6 +93,9 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 		this.canHang = canHang;
 		this.wetSlide = wetSlide;
 		this.stability = stability;
+                this.radiateMaxCooling = maxCooling;
+                this.radiateMaxHeating = maxHeating;
+                this.radiateRange = maxRange;
 		this.loadedFrom = fileName;
 	}
 
@@ -144,6 +150,10 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 		tags.setBoolean("slides", this.slides);
 		tags.setBoolean("canHang", this.canHang);
 		tags.setBoolean("wetSlide", this.wetSlide);
+                tags.setFloat("maxCooling", this.radiateMaxCooling);
+                tags.setFloat("maxHeating", this.radiateMaxHeating);
+                tags.setFloat("radiateRange", this.radiateRange);
+                
 		return tags;
 	}
 
@@ -163,6 +173,9 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 		this.slides = tags.getBoolean("slides");
 		this.canHang = tags.getBoolean("canHang");
 		this.wetSlide = tags.getBoolean("wetSlide");
+                this.radiateMaxCooling = tags.getFloat("maxCooling");
+                this.radiateMaxHeating = tags.getFloat("maxHeating");
+                this.radiateRange = tags.getFloat("radiateRange");
 	}
 
 	@Override
@@ -193,6 +206,9 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 		String stability = config.get(category, BPName[9], EM_Settings.defaultStability).getString();
 		boolean slides = config.get(category, BPName[10], false).getBoolean(false);
 		boolean wetSlides = config.get(category, BPName[11], false).getBoolean(false);
+                float radiateRange = (float)config.get(category, BPName[12], 0.0).getDouble(0.0);
+		float radiateMaxHeat = (float)config.get(category, BPName[13], 0.0).getDouble(0.0);
+		float radiateMaxCool = (float)config.get(category, BPName[14], 0.0).getDouble(0.0);
 		String filename = config.getConfigFile().getName();
 		
 		// 	Get Stability Options
@@ -224,7 +240,7 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 			canHang = true;
 		}
 		
-		BlockProperties entry = new BlockProperties(name, metaData, hasPhys, minFall, maxFall, supportDist, dropName, dropMeta, dropNum, enableTemp, temperature, airQuality, sanity, holdOther, slides, canHang, wetSlides, stability, filename);
+		BlockProperties entry = new BlockProperties(name, metaData, hasPhys, minFall, maxFall, supportDist, dropName, dropMeta, dropNum, enableTemp, temperature, airQuality, sanity, holdOther, slides, canHang, wetSlides, stability, radiateRange,radiateMaxCool, radiateMaxHeat, filename);
 		
 		if(metaData < 0)
 		{
@@ -256,6 +272,9 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 		config.get(category, BPName[9], stability).getString();
 		config.get(category, BPName[10], slides).getBoolean(false);
 		config.get(category, BPName[11], wetSlide).getBoolean(false);
+                config.get(category, BPName[12], this.radiateRange).getDouble(0.0);
+                config.get(category, BPName[13], this.radiateMaxCooling).getDouble(0.0);
+                config.get(category, BPName[14], this.radiateMaxHeating).getDouble(0.0);
 	}
 
 	@Override
@@ -517,6 +536,9 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 		config.get(category, BPName[9], defStability.name).getString();
 		config.get(category, BPName[10], false).getBoolean(false);
 		config.get(category, BPName[11], false).getBoolean(false);
+                config.get(category, BPName[12], 0.0).getDouble(0.0);
+                config.get(category, BPName[13], 0.0).getDouble(0.0);
+                config.get(category, BPName[14], 0.0).getDouble(0.0);
 	}
 
 	@Override
@@ -532,7 +554,7 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 	
 	static
 	{
-		BPName = new String[12];
+		BPName = new String[15];
 		BPName[0] = "01.Name";
 		BPName[1] = "02.MetaID";
 		BPName[2] = "03.DropName";
@@ -545,6 +567,9 @@ public class BlockProperties implements SerialisableProperty, PropertyBase
 		BPName[9] = "10.Stability";
 		BPName[10] = "11.Slides";
 		BPName[11] = "12.Slides When Wet";
+		BPName[12] = "13.Radiate Temp Range";
+		BPName[13] = "14.Max Cooling";
+		BPName[14] = "15.Max Heating";
 	}
 
 }
