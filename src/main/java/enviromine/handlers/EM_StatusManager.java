@@ -307,7 +307,7 @@ public class EM_StatusManager
                                                     maxDecreaseTemp += maxCooled;
                                                     maxIncreaseTemp += maxHeated;        
                                                 } else {
-                                                    if (distance >= 10.0) continue;
+                                                    if (distance >= 5.0) continue;
                                                 }
 						if(blockProps.air > 0F)
 						{
