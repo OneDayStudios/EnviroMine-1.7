@@ -118,8 +118,8 @@ public class EnviroMine
 		BiomeDictionary.registerBiomeType(caves, Type.WASTELAND);
 		
 		
-		DimensionManager.registerProviderType(EM_Settings.caveDimID, WorldProviderCaves.class, false);
-		DimensionManager.registerDimension(EM_Settings.caveDimID, EM_Settings.caveDimID);
+		//DimensionManager.registerProviderType(EM_Settings.caveDimID, WorldProviderCaves.class, false);
+		//DimensionManager.registerDimension(EM_Settings.caveDimID, EM_Settings.caveDimID);
 		
 		
 		proxy.registerTickHandlers();

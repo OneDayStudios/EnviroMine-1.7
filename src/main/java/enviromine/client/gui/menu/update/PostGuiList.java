@@ -67,7 +67,8 @@ public class PostGuiList extends GuiListExtended
 	{
 		if(EM_Settings.Version == "FWG_" + "EM" + "_VER")
 		{
-			addLine(EnumChatFormatting.RED + "THIS COPY OF ENIVROMINE IS NOT FOR PUBLIC USE!");
+			addLine(EnumChatFormatting.RED + "This copy of enviromine has been modified for use with StargateMC.com.");
+			addLine(EnumChatFormatting.RED + "It will not work if you attempt to use it elsewhere.");
 			return;
 		}
 		

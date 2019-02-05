@@ -96,7 +96,8 @@ public class UpdateNotification
 		// DO NOT CHANGE THIS!
 		if(EM_Settings.Version == "FWG_" + "EM" + "_VER")
 		{
-			event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "THIS COPY OF ENIVROMINE IS NOT FOR PUBLIC USE!"));
+			event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "This copy of enviromine has been modified specifically for use in the StargateMC client."));
+			event.player.addChatMessage(new ChatComponentText(EnumChatFormatting.RED + "It will break if used stand-alone."));
 			return;
 		}
 		
