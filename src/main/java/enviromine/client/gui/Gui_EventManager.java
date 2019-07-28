@@ -65,14 +65,14 @@ public class Gui_EventManager
 			{
 				byte b0 = -16;
 				//enviromine = new GuiButton(1348, width / 2 - 100, height / 4 + 24 + b0, StatCollector.translateToLocal("options.enviromine.menu.title") + newPost);
-				enviromine = new EM_Button(1348, width / 2 - 100, height / 4 + 24 + b0, StatCollector.translateToLocal("options.enviromine.menu.title") , newPost);
-				event.buttonList.set(1, new GuiButton(4, width / 2 - 100, height / 4 + 0 + b0, I18n.format("menu.returnToGame", new Object[0])));
-				event.buttonList.add(enviromine);
+				//enviromine = new EM_Button(1348, width / 2 - 100, height / 4 + 24 + b0, StatCollector.translateToLocal("options.enviromine.menu.title") , newPost);
+				//event.buttonList.set(1, new GuiButton(4, width / 2 - 100, height / 4 + 0 + b0, I18n.format("menu.returnToGame", new Object[0])));
+				//event.buttonList.add(enviromine);
 			} catch(Exception e)
 			{
 				enviromine = new GuiButton(1348, width - 175, height - 30, 160, 20, StatCollector.translateToLocal("options.enviromine.menu.title") + newPost);
 				EnviroMine.logger.log(Level.ERROR, "Error shifting Minecrafts Menu to add in new button: " + e);
-				event.buttonList.add(enviromine);
+				//event.buttonList.add(enviromine);
 			}
 		}
 	}
