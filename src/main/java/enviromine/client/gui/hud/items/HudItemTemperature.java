@@ -105,10 +105,10 @@ public class HudItemTemperature extends HudItem
 		int heatBar = MathHelper.ceiling_float_int(((Gui_EventManager.tracker.bodyTemp + 50) / 150) * this.getWidth());
 		int preheatBar = MathHelper.ceiling_float_int(((Gui_EventManager.tracker.airTemp + 50) / 150) * this.getWidth());
 		int preheatIco = 16 - MathHelper.ceiling_float_int(((Gui_EventManager.tracker.airTemp + 50) / 150) * 16);
-		
 		float dispHeat = new BigDecimal(String.valueOf(Gui_EventManager.tracker.bodyTemp)).setScale(2, RoundingMode.DOWN).floatValue();
 		float FdispHeat = new BigDecimal(String.valueOf((Gui_EventManager.tracker.bodyTemp * 1.8) + 32)).setScale(2, RoundingMode.DOWN).floatValue();
-		
+		float airTemp = new BigDecimal(String.valueOf((Gui_EventManager.tracker.airTemp) + 32)).setScale(2, RoundingMode.DOWN).floatValue();
+
 		int frameBorder = 4;
 		if(this.isBlinking())
 			frameBorder = 5;
@@ -190,6 +190,7 @@ public class HudItemTemperature extends HudItem
 			{
 				Minecraft.getMinecraft().fontRenderer.drawString(dispHeat + "C", getTextPosX(), posY, 16777215);
 			}
+                        Minecraft.getMinecraft().fontRenderer.drawString("Ambient: " + airTemp + "C", getTextPosX()+60, posY, 16777215);
 		}
 		
 		GL11.glPopMatrix();
