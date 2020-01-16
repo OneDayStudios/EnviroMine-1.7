@@ -194,12 +194,17 @@ public class HudItemTemperature extends HudItem
 			{
 				Minecraft.getMinecraft().fontRenderer.drawString(dispHeat + "C", getTextPosX(), posY, 16777215);
 			}
-                        Minecraft.getMinecraft().fontRenderer.drawString("Ambient Temp: " + airTemp + "C", getTextPosX()-60, posY-10, 16777215);
+                        Minecraft.getMinecraft().fontRenderer.drawString(airTemp + "C", getTextPosX()-60, posY-10, getColorForTemp(airTemp));
 		}
-		
 		GL11.glPopMatrix();
 	}
 	
+        public int getColorForTemp(float temp) {
+            if (temp > 50.0 || temp < -10.0) return GuiColor.LIGHT_RED.getNumber();
+            if (temp > 35.0 || temp < 15.0) return GuiColor.YELLOW.getNumber();
+            return GuiColor.LIGHT_GREEN.getNumber();
+        }
+        
 	@Override
 	public ResourceLocation getResource(String type)
 	{

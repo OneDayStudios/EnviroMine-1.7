@@ -15,7 +15,7 @@ public class UI_Settings {
 	public static boolean sweatParticals = true;
 	public static boolean insaneParticals = true;
 	public static boolean useFarenheit = false;
-	public static boolean ShowText = true;
+	public static boolean ShowText = false;
 	public static boolean ShowDebug = false;
 	public static boolean breathSound = true;
 	public static int breathPause = 300;
@@ -54,8 +54,7 @@ public class UI_Settings {
 		sweatParticals = nbt.hasKey("sweatParticals") ? nbt.getBoolean("sweatParticals") : sweatParticals;
 		insaneParticals = nbt.hasKey("insaneParticals") ? nbt.getBoolean("insaneParticals") : insaneParticals;
 		useFarenheit = nbt.hasKey("useFarenheit") ? nbt.getBoolean("useFarenheit") : useFarenheit;
-		ShowText = true;
-                //nbt.hasKey("ShowText") ? nbt.getBoolean("ShowText") : ShowText;
+                ShowText = (nbt.hasKey("ShowText") ? nbt.getBoolean("ShowText") : ShowText);
 		ShowDebug = nbt.hasKey("ShowDebug") ? nbt.getBoolean("ShowDebug") : ShowDebug;
 		breathSound = nbt.hasKey("breathSound") ? nbt.getBoolean("breathSound") : breathSound;
 		breathPause = nbt.hasKey("breathPause") ? nbt.getInteger("breathPause") : breathPause;
