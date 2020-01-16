@@ -15,6 +15,7 @@ import enviromine.core.EM_Settings;
 import enviromine.utils.Alignment;
 import enviromine.utils.RenderAssist;
 import rpcore.RPCore;
+import rpcore.api.CoreAPI;
 import rpcore.constants.GuiColor;
 import rpcore.constants.GuiSlot;
 import rpcore.module.gui.Gui;
