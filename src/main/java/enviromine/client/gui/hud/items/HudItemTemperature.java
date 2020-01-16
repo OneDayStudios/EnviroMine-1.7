@@ -194,8 +194,9 @@ public class HudItemTemperature extends HudItem
 			{
 				Minecraft.getMinecraft().fontRenderer.drawString(dispHeat + "C", getTextPosX(), posY, 16777215);
 			}
-                        Minecraft.getMinecraft().fontRenderer.drawString(airTemp + "C", getTextPosX()-60, posY-10, getColorForTemp(airTemp));
 		}
+                Minecraft.getMinecraft().fontRenderer.drawString(airTemp + "C", getTextPosX()-60, posY-10, getColorForTemp(airTemp));
+                Minecraft.getMinecraft().fontRenderer.drawString("", getTextPosX()-30, posY-10, 16777215);
 		GL11.glPopMatrix();
 	}
 	
