@@ -14,6 +14,11 @@ import enviromine.client.gui.hud.HudItem;
 import enviromine.core.EM_Settings;
 import enviromine.utils.Alignment;
 import enviromine.utils.RenderAssist;
+import rpcore.RPCore;
+import rpcore.constants.GuiColor;
+import rpcore.constants.GuiSlot;
+import rpcore.module.gui.Gui;
+import rpcore.module.gui.GuiElement;
 
 public class HudItemHydration extends HudItem	{
 
@@ -102,6 +107,21 @@ public class HudItemHydration extends HudItem	{
 		int waterBar = MathHelper.ceiling_float_int((Gui_EventManager.tracker.hydration / 100) * this.getWidth());
 
 		int frameBorder = 4;
+                if (Gui_EventManager.tracker.hydration >= 80 && Gui_EventManager.tracker.prevHydration < 80) {
+                    GuiElement element = new GuiElement(GuiSlot.Toast, "","You are feeling hydrated...","",0,GuiColor.DARK_BLUE.getNumber(),0);
+                    Gui gui = new Gui(element, 5000);
+                    RPCore.getGuiRegistry().register(gui);
+                }
+                if (Gui_EventManager.tracker.prevHydration > 50 && Gui_EventManager.tracker.hydration <= 50) {
+                    GuiElement element = new GuiElement(GuiSlot.Toast, "","You are getting thirsty... you better grab a drink soon..","Tip: You will die if you complete dehydrate. You need drink from a camel pack a bottle of water when you can.",0,GuiColor.YELLOW.getNumber(),GuiColor.GRAY.getNumber());
+                    Gui gui = new Gui(element, 5000);
+                    RPCore.getGuiRegistry().register(gui);
+                }
+                if (Gui_EventManager.tracker.prevHydration > 25 && Gui_EventManager.tracker.hydration <= 25) {
+                    GuiElement element = new GuiElement(GuiSlot.Toast, "", "You are getting dehydrated... you better grab a drink, fast!","Tip: You will die if you completely dehydrate. You need drink from a camel pack a bottle of water as soon as possible!",0,GuiColor.LIGHT_RED.getNumber(),GuiColor.GRAY.getNumber());
+                    Gui gui = new Gui(element, 5000);
+                    RPCore.getGuiRegistry().register(gui);
+                }
 		if(this.isBlinking())
 			frameBorder = 5;
 		
