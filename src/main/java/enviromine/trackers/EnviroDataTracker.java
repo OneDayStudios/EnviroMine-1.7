@@ -118,7 +118,7 @@ public class EnviroDataTracker
 			return;
 		}
 		
-		float[] enviroData = EM_StatusManager.getSurroundingData(trackedEntity, 32);
+		float[] enviroData = EM_StatusManager.getSurroundingData(trackedEntity, 16);
 		boolean isCreative = false;
 		
 		if(trackedEntity instanceof EntityPlayer)
