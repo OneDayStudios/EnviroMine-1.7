@@ -109,6 +109,16 @@ public class EM_PhysManager
 		}
 		
 		DimensionProperties dProps = EM_Settings.dimensionProperties.get(world.provider.dimensionId);
+
+		if(dProps != null && !dProps.physics)
+		{
+			return;
+		}
+                
+		if(world.isAirBlock(x, y, z))
+		{
+			return;
+		}
                 ForgeDimension d = RPCore.getDimensionRegistry().getForDimensionId(world.provider.dimensionId);
                 if (d != null) {
                     Position pos = new Position(d.getIdentifier(), x, y, z);
@@ -120,16 +130,6 @@ public class EM_PhysManager
                         }
                     }
                 }
-		if(dProps != null && !dProps.physics)
-		{
-			return;
-		}
-                
-		if(world.isAirBlock(x, y, z))
-		{
-			return;
-		}
-		
 		Object[] entry = new Object[6];
 		entry[0] = world;
 		entry[1] = x;
